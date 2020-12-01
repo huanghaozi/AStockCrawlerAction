@@ -9,9 +9,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Echo username and title
-        run: |
-          echo ${{ github.actor }}
-          echo ${{ github.event_name }}
-          echo ${{ github.event_path }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"

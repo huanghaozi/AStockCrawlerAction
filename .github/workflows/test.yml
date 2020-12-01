@@ -9,8 +9,36 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Dump GitHub context
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Get All Data
+        run: |
+          python getData.py ${{ github.event.comment.body }}
+          zip -r Data.zip Data.xlsx
+      - name: Get Timestamp Action
+        id: current-time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          timeZone: 8
+          format: "YYYYMMDDHHmmss"
+      - name: Create a Release
+        id: create_release
+        uses: actions/create-release@v1.1.4
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-        
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.comment.user.login }}${{ steps.current-time.outputs.time }}
+          release_name: ${{ github.event.comment.user.login }} ${{ steps.current-time.outputs.time }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./Data.zip
+          asset_name: Data.zip
+          asset_content_type: application/zip

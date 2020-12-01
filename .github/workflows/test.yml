@@ -1,0 +1,16 @@
+name: Test
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Echo username and title
+        run: |
+          echo ${{ github.actor }}
+          echo ${{ github.event_name }}

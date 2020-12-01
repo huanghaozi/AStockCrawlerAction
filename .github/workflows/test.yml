@@ -1,7 +1,7 @@
 name: Test
 on:
-  issues:
-    types: [opened]
+  issue_comment:
+    types: [created, deleted]
 
 jobs:
   build:
@@ -9,7 +9,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Get Data
-        run: |
-          python getData.py ${{ github.event.issue.body }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
         

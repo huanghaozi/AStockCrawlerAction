@@ -9,7 +9,7 @@ args = args.replace('，', ',')
 args = args.replace('——', '-')
 args = args.replace(' ', '')
 
-allList = args.split(';')
+allList = args.split('-')
 
 df_outputs = {}
 

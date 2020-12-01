@@ -1,3 +1,4 @@
+# coding : utf-8
 import sys
 import akshare as ak
 import pandas as pd

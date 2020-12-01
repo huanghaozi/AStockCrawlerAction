@@ -63,7 +63,8 @@ for s in allList[1:]:
             if df_temp.empty:
                 df_temp = df[['date']]
             df_temp = pd.merge(left=df_temp, right=df[['date', s]].rename(columns={s: key}), on='date')
-    df_outputs[s] = df_temp
+    if not df_temp.empty:
+        df_outputs[s] = df_temp
 
 
 excel_writer = pd.ExcelWriter('Data.xlsx')

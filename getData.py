@@ -2,8 +2,8 @@
 import sys
 import akshare as ak
 import pandas as pd
-
-print(sys.argv)
+for k in sys.argv:
+    print('参数：' + k)
 args = "".join(sys.argv[1:])
 args = args.replace('，', ',')
 args = args.replace('；', ';')

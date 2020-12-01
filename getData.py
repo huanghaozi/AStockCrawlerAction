@@ -6,7 +6,7 @@ for k in sys.argv:
     print('参数：' + k)
 args = "".join(sys.argv[1:])
 args = args.replace('，', ',')
-args = args.replace('；', ';')
+args = args.replace('——', '-')
 args = args.replace(' ', '')
 
 allList = args.split(';')
